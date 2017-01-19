@@ -1,10 +1,16 @@
 import cv2
 import numpy as np
 import os
+import argparse
 
 from components import *
 
-DEBUG = False
+DEBUG = False 
+
+parser = argparse.ArgumentParser(description='Generate sample targets based on resources as specified in components.py')
+parser.add_argument('--res', metavar='res', type=int, help="Output image resolution. Output is always square")
+
+args = parser.parse_args()
 
 # Iterate through backgrounds
 for background in backgrounds:
@@ -39,7 +45,11 @@ for background in backgrounds:
                     target_bot = cv2.bitwise_and(targetBg, targetBg, mask=targetShape_mask)
                     target = cv2.bitwise_or(target_top, target_mid)
                     target = cv2.bitwise_or(target, target_bot)
-                    
+
+                    if args.res is not None:
+                        target = cv2.resize(target, (args.res, args.res), interpolation = cv2.INTER_AREA)
+
+
                     # Save target
                     directory = '../generated/'
                     if not (os.path.isdir(directory)):
