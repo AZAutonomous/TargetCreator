@@ -48,9 +48,9 @@ letters = [("A", "../res/letters/A.jpg"),
           ("Y", "../res/letters/Y.jpg"),
           ("Z", "../res/letters/Z.jpg")]
 
-# List of colors in GBR (OpenCV compatibility)
+# List of colors in BGR (OpenCV compatibility)
 colors = [('white',  (255,255,255)),
-         ('black',  (64,64,64)),
+         ('black',  (80,64,64)),
          ('gray',   (160,160,160)),
          ('red',    (0,0,255)),
          ('blue',   (255,0,0)), 
