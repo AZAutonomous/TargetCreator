@@ -64,7 +64,7 @@ for background in backgrounds:
                         # save as JSON with labels
                         print("TODO")
                         packet = {}
-                        packet["image"] = target
+                        packet["image"] = filename + '.jpg'
                         packet["targetShape"] = shape[0]
                         packet["targetColor"] = color[0]
                         packet["targetLetter"] = letter[0]
