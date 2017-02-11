@@ -74,20 +74,22 @@ for background in backgrounds:
                         # save as JSON with labels
                         packet = {}
                         packet["image"] = filename + '.jpg'
-                        packet["targetShape"] = shape[0]
-                        packet["targetColor"] = color[0]
-                        packet["targetLetter"] = letter[0]
-                        packet["targetLetterColor"] = letterColor[0]
+                        packet["shape"] = shape[0]
+                        packet["shapeColor"] = color[0]
+                        packet["letter"] = letter[0]
+                        packet["letterColor"] = letterColor[0]
+						packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                         cv2.imwrite(directory + filename + '.jpg', target)
                     elif args.format == 'json':
                         # save as JSON with labels
                         packet = {}
                         packet["image"] = filename + '.jpg'
-                        packet["targetShape"] = shape[0]
-                        packet["targetColor"] = color[0]
-                        packet["targetLetter"] = letter[0]
-                        packet["targetLetterColor"] = letterColor[0]
+                        packet["shape"] = shape[0]
+                        packet["shapeColor"] = color[0]
+                        packet["letter"] = letter[0]
+                        packet["letterColor"] = letterColor[0]
+						packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                     elif args.format == 'jpg':
                         cv2.imwrite(directory + filename + '.jpg', target)
