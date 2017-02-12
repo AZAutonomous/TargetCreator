@@ -51,7 +51,7 @@ for background in backgrounds:
                     blank = np.full(targetBg.shape, 255, dtype=(np.uint8))
                     # Construct target
                     target_top = cv2.bitwise_and(blank, targetLetterColor, mask=cv2.bitwise_not(targetLetter_mask))
-                    target_mid = cv2.bitwise_and(blank, targetColor, mask=cv2.bitwise_or(cv2.bitwise_not(targetShape_mask), targetLetter_mask))
+                    target_mid = cv2.bitwise_and(blank, targetColor, mask=cv2.bitwise_and(cv2.bitwise_not(targetShape_mask), targetLetter_mask))
                     target_bot = cv2.bitwise_and(targetBg, targetBg, mask=targetShape_mask)
                     target = cv2.bitwise_or(target_top, target_mid)
                     target = cv2.bitwise_or(target, target_bot)
@@ -78,7 +78,7 @@ for background in backgrounds:
                         packet["shapeColor"] = color[0]
                         packet["letter"] = letter[0]
                         packet["letterColor"] = letterColor[0]
-						packet["orientation"] = "n"
+                        packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                         cv2.imwrite(directory + filename + '.jpg', target)
                     elif args.format == 'json':
@@ -89,7 +89,7 @@ for background in backgrounds:
                         packet["shapeColor"] = color[0]
                         packet["letter"] = letter[0]
                         packet["letterColor"] = letterColor[0]
-						packet["orientation"] = "n"
+                        packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                     elif args.format == 'jpg':
                         cv2.imwrite(directory + filename + '.jpg', target)
