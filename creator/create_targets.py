@@ -78,7 +78,7 @@ for background in backgrounds:
                         packet["letter"] = letter[0]
                         packet["letterColor"] = letterColor[0]
                         packet["orientation"] = "n"
-                        with open(directory + filename + '.json') as outfile:
+                        with open(directory + filename + '.json', 'w') as outfile:
                             json.dump(packet, outfile)
                         cv2.imwrite(directory + filename + '.jpg', target)
                     elif args.format == 'json':
@@ -90,7 +90,7 @@ for background in backgrounds:
                         packet["letter"] = letter[0]
                         packet["letterColor"] = letterColor[0]
                         packet["orientation"] = "n"
-                        with open(directory + filename + '.json') as outfile:
+                        with open(directory + filename + '.json', 'w') as outfile:
                             json.dump(packet, outfile)
                     elif args.format == 'jpg':
                         cv2.imwrite(directory + filename + '.jpg', target)
