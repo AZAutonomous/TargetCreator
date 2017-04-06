@@ -75,9 +75,9 @@ for background in backgrounds:
                         packet = {}
                         packet["image"] = filename + '.jpg'
                         packet["shape"] = shape[0]
-                        packet["shapeColor"] = color[0]
-                        packet["letter"] = letter[0]
-                        packet["letterColor"] = letterColor[0]
+                        packet["background_color"] = color[0]
+                        packet["alphanumeric"] = letter[0]
+                        packet["alphanumeric_color"] = letterColor[0]
                         packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                         cv2.imwrite(directory + filename + '.jpg', target)
@@ -86,9 +86,9 @@ for background in backgrounds:
                         packet = {}
                         packet["image"] = filename + '.jpg'
                         packet["shape"] = shape[0]
-                        packet["shapeColor"] = color[0]
-                        packet["letter"] = letter[0]
-                        packet["letterColor"] = letterColor[0]
+                        packet["background_color"] = color[0]
+                        packet["alphanumeric"] = letter[0]
+                        packet["alphanumeric_color"] = letterColor[0]
                         packet["orientation"] = "n"
                         azautil.jsonify.save(packet, directory + filename + '.json')
                     elif args.format == 'jpg':
