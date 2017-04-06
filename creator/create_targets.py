@@ -3,8 +3,7 @@ import numpy as np
 import os
 import argparse
 import random
-
-import azautil.jsonify
+import json
 
 from components import *
 
@@ -79,7 +78,8 @@ for background in backgrounds:
                         packet["alphanumeric"] = letter[0]
                         packet["alphanumeric_color"] = letterColor[0]
                         packet["orientation"] = "n"
-                        azautil.jsonify.save(packet, directory + filename + '.json')
+                        with open(directory + filename + '.json', 'w') as outfile:
+                            json.dump(packet, outfile)
                         cv2.imwrite(directory + filename + '.jpg', target)
                     elif args.format == 'json':
                         # save as JSON with labels
@@ -90,7 +90,8 @@ for background in backgrounds:
                         packet["alphanumeric"] = letter[0]
                         packet["alphanumeric_color"] = letterColor[0]
                         packet["orientation"] = "n"
-                        azautil.jsonify.save(packet, directory + filename + '.json')
+                        with open(directory + filename + '.json', 'w') as outfile:
+                            json.dump(packet, outfile)
                     elif args.format == 'jpg':
                         cv2.imwrite(directory + filename + '.jpg', target)
                     else:
