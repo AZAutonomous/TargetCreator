@@ -68,7 +68,7 @@ for background in backgrounds:
                     directory = '../generated/'
                     if not (os.path.isdir(directory)):
                         os.mkdir(directory)
-                    filename = background[0] + '_' + color[0] + '_' + shape[0] + '_' + letterColor[0] + '_' + letter[0]
+                    filename = background[0] + '_' + color[0] + '_' + shape[0] + '_' + letterColor[0] + '_' + letter[0] + '_' + size
                     if args.format == 'all':
                         # save as JSON with labels
                         packet = {}
