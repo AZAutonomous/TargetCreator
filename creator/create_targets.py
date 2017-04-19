@@ -7,7 +7,7 @@ import json
 
 from components import *
 
-DEBUG = False
+DEBUG = False 
 
 parser = argparse.ArgumentParser(description='Generate sample targets based on resources as specified in components.py')
 parser.add_argument('-s', '--size', metavar='size', type=int, help="Output image resolution. Output is always square")
@@ -73,7 +73,7 @@ def main():
 
                         # Randomly distort perspective
                         psrc = np.array([[0,0], [w-1,0], [w-1,h-1], [0, h-1]], dtype=np.float32)
-                        PW = 15
+                        PW = args.size / 4 
                         pdst = np.array([[0-PW*random.random(), 0-PW*random.random()],
                                          [w-1+PW*random.random(), 0-PW*random.random()],
                                          [w-1+PW*random.random(), h-1+PW*random.random()],
