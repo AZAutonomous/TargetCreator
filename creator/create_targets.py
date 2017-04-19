@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import math
 import os
 import argparse
 import random
@@ -7,7 +8,7 @@ import json
 
 from components import *
 
-DEBUG = False 
+DEBUG = False
 
 parser = argparse.ArgumentParser(description='Generate sample targets based on resources as specified in components.py')
 parser.add_argument('-s', '--size', metavar='size', type=int, help="Output image resolution. Output is always square")
@@ -45,14 +46,29 @@ def main():
                         y = random.randint(0, bg.shape[1]-targetShape.shape[1])
                         targetBg = bg[x:x+targetShape.shape[0], y:y+targetShape.shape[1]]
 
+                        # Randomly resize shape and letter
+                        factor = 1 + 0.2 * random.random()
+                        newsize = np.multiply(targetShape.shape[:2], factor).astype(np.int32)
+                        newsize = tuple(newsize)
+                        sizediff = np.subtract(newsize, targetShape.shape[:2]).astype(np.float32)
+                        sizediff = np.divide(sizediff, 2)
+                        targetShapeResized = cv2.resize(targetShape, newsize)
+                        targetLetterResized = cv2.resize(targetLetter, newsize)
+                        minX = int(math.floor(sizediff[0]))
+                        maxX = int(targetShapeResized.shape[0]-math.ceil(sizediff[0]))
+                        minY = int(math.floor(sizediff[1]))
+                        maxY = int(targetShapeResized.shape[1]-math.ceil(sizediff[1]))
+                        targetShapeResized = targetShapeResized[minX:maxX, minY:maxY]
+                        targetLetterResized = targetLetterResized[minX:maxX, minY:maxY]
+
                         # Randomly rotate shape and letter (by same amount)
-                        (h, w) = targetShape.shape[:2]
-                        assert (h,w) == targetLetter.shape[:2]
+                        (h, w) = targetShapeResized.shape[:2]
+                        assert (h,w) == targetLetterResized.shape[:2]
                         center = (w / 2, h / 2)
                         M = cv2.getRotationMatrix2D(center, randomAngle(), 1.0)
                         # Invert images. This is important for proper background padding
-                        targetShape_gray = cv2.cvtColor(targetShape, cv2.COLOR_BGR2GRAY)
-                        targetLetter_gray = cv2.cvtColor(targetLetter, cv2.COLOR_BGR2GRAY)
+                        targetShape_gray = cv2.cvtColor(targetShapeResized, cv2.COLOR_BGR2GRAY)
+                        targetLetter_gray = cv2.cvtColor(targetLetterResized, cv2.COLOR_BGR2GRAY)
                         targetShape_gray = (255-targetShape_gray)
                         targetLetter_gray = (255-targetLetter_gray)
                         targetShape_rot = cv2.warpAffine(targetShape_gray, M, (w, h))
@@ -73,7 +89,7 @@ def main():
 
                         # Randomly distort perspective
                         psrc = np.array([[0,0], [w-1,0], [w-1,h-1], [0, h-1]], dtype=np.float32)
-                        PW = args.size / 4 
+                        PW = args.size / 8 
                         pdst = np.array([[0-PW*random.random(), 0-PW*random.random()],
                                          [w-1+PW*random.random(), 0-PW*random.random()],
                                          [w-1+PW*random.random(), h-1+PW*random.random()],
