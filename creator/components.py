@@ -46,11 +46,23 @@ letters = [("A", "../res/letters/A.jpg"),
           ("W", "../res/letters/W.jpg"),
           ("X", "../res/letters/X.jpg"),
           ("Y", "../res/letters/Y.jpg"),
-          ("Z", "../res/letters/Z.jpg")]
+          ("Z", "../res/letters/Z.jpg"),
+          ("0", "../res/letters/0.jpg"),
+          ("1", "../res/letters/1.jpg"),
+          ("2", "../res/letters/2.jpg"),
+          ("3", "../res/letters/3.jpg"),
+          ("4", "../res/letters/4.jpg"),
+          ("5", "../res/letters/5.jpg"),
+          ("6", "../res/letters/6.jpg"),
+          ("7", "../res/letters/7.jpg"),
+          ("8", "../res/letters/8.jpg"),
+          ("9", "../res/letters/9.jpg"),
+        
+          ]
 
 # List of colors in BGR (OpenCV compatibility)
 colors = [('white',  (255,255,255)),
-         ('black',  (55,60,60)),
+         ('black',  (80,64,64)),
          ('gray',   (160,160,160)),
          ('red',    (0,0,255)),
          ('blue',   (255,0,0)), 
