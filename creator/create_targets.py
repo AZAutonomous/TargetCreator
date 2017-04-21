@@ -16,8 +16,8 @@ parser.add_argument('format', choices=['json', 'jpg', 'all'], help="Output image
 
 args = parser.parse_args()
 
-def randomAngle():
-    return (random.random() - 0.5) * 360
+def randomAngle(maxangle=180):
+    return (random.random() - 0.5) * 2 * maxangle
 
 def main():
     # Iterate through backgrounds
@@ -65,7 +65,7 @@ def main():
                         (h, w) = targetShapeResized.shape[:2]
                         assert (h,w) == targetLetterResized.shape[:2]
                         center = (w / 2, h / 2)
-                        M = cv2.getRotationMatrix2D(center, randomAngle(), 1.0)
+                        M = cv2.getRotationMatrix2D(center, randomAngle(180), 1.0)
                         # Invert images. This is important for proper background padding
                         targetShape_gray = cv2.cvtColor(targetShapeResized, cv2.COLOR_BGR2GRAY)
                         targetLetter_gray = cv2.cvtColor(targetLetterResized, cv2.COLOR_BGR2GRAY)
