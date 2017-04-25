@@ -1,13 +1,7 @@
-# classify_images.py
+# distort_targets.py
 # Author: Arizona Autonomous Vehicles Club
 # Task: AUVSI SUAS 2017 Image Classification
-# Description: This script is the primary program for competition time.
-#			  Once run, it will loop forever until terminated manually,
-#			  e.g. with Ctrl+C or Ctrl+Z. The script continuously polls
-#			  its current directory (or optional provided directory) for
-#			  images of .jpg (or optional specified format) and classify
-#			  the image(s). Results will then be transmitted to the
-#			  interop server for scoring
+# Description: This script applies random distortions to images with JSON labels in a directory
 
 import argparse
 import os
