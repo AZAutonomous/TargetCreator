@@ -45,8 +45,8 @@ def main():
                         x = random.randint(0, bg.shape[0]-targetShape.shape[0])
                         y = random.randint(0, bg.shape[1]-targetShape.shape[1])
                         targetBg = bg[x:x+targetShape.shape[0], y:y+targetShape.shape[1]]
-
-                        # Randomly resize shape and letter
+						
+						# Randomly resize shape and letter
                         factor = 1 + 0.2 * random.random()
                         newsize = np.multiply(targetShape.shape[:2], factor).astype(np.int32)
                         newsize = tuple(newsize)
@@ -86,19 +86,6 @@ def main():
                         target_bot = cv2.bitwise_and(targetBg, targetBg, mask=cv2.bitwise_not(targetShape_mask))
                         target = cv2.bitwise_or(target_top, target_mid)
                         target = cv2.bitwise_or(target, target_bot)
-
-                        # Randomly distort perspective
-                        psrc = np.array([[0,0], [w-1,0], [w-1,h-1], [0, h-1]], dtype=np.float32)
-                        PW = args.size / 8 
-                        pdst = np.array([[0-PW*random.random(), 0-PW*random.random()],
-                                         [w-1+PW*random.random(), 0-PW*random.random()],
-                                         [w-1+PW*random.random(), h-1+PW*random.random()],
-                                         [0-PW*random.random(), h-1+PW*random.random()]], dtype=np.float32)
-                        if DEBUG:
-                            print psrc.shape, psrc
-                            print pdst.shape, pdst
-                        warp = cv2.getPerspectiveTransform(psrc, pdst)
-                        target = cv2.warpPerspective(target, warp, (w, h)) # targetWarped
                         
     
                         # Resize images
