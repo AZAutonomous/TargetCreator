@@ -5,6 +5,7 @@
 
 import argparse
 import os
+import random
 import shutil
 import json
 
@@ -14,12 +15,12 @@ import cv2
 parser = argparse.ArgumentParser(
 					description='Utility program which applies distortions to contents '
 								'of a folder. Note that both the image AND the JSON '
-								'must be present in the directory!'
+								'must be present in the directory!')
 parser.add_argument('-v', '--verbose', action='store_true')
 parser.add_argument('-d', '--dir', 
 						help='Directory to scan for images. If no directory provided, '
 								'scans current working directory')
-parser.add_argument('-n', '--num_copies', default=1,
+parser.add_argument('-n', '--num_copies', type=int, default=1,
 						help='Number of distorted copies to generate, excluding original')
 
 args = parser.parse_args()
@@ -31,7 +32,7 @@ def randomAngle(maxangle=180):
 def distort_image(image, perspective_warp_weight=0.2):
 	im = image.copy()
 	
-	# Randomly the target
+	# Randomly rotate the target
 	(h, w) = im.shape[:2]
 	center = (w / 2, h / 2)
 	M = cv2.getRotationMatrix2D(center, randomAngle(180), 1.0)
@@ -40,10 +41,10 @@ def distort_image(image, perspective_warp_weight=0.2):
 	# Randomly distort perspective
 	psrc = np.array([[0,0], [w-1,0], [w-1,h-1], [0, h-1]], dtype=np.float32)
 	warp_amt = ((h + w) / 2) * perspective_warp_weight
-	pdst = np.array([[0-warp_amt*random.random(), 0-PW*random.random()],
-					 [w-1+warp_amt*random.random(), 0-PW*random.random()],
-					 [w-1+PW*random.random(), h-1+PW*random.random()],
-					 [0-PW*random.random(), h-1+PW*random.random()]], dtype=np.float32)
+	pdst = np.array([[0-warp_amt*random.random(), 0-warp_amt*random.random()],
+					 [w-1+warp_amt*random.random(), 0-warp_amt*random.random()],
+					 [w-1+warp_amt*random.random(), h-1+warp_amt*random.random()],
+					 [0-warp_amt*random.random(), h-1+warp_amt*random.random()]], dtype=np.float32)
 	warp = cv2.getPerspectiveTransform(psrc, pdst)
 	im = cv2.warpPerspective(im, warp, (w, h)) # targetWarped
 	
@@ -56,7 +57,7 @@ def save_to_processed_subdir(root, f, newname=None, copy=False):
 	'''
 	if newname is not None:
 		filename = newname
-	else
+        else:
 		filename = f
 	# Move a file into processed_## subdir
 	counter = 0
@@ -72,7 +73,7 @@ def save_to_processed_subdir(root, f, newname=None, copy=False):
 		os.mkdir(os.path.join(root, processedDir))
 	# Move processed file to processed_##/ subdirectory
 	if copy:
-		shutil.copyFile(os.path.join(root, f), os.path.join(root, processedDir, filename))
+		shutil.copyfile(os.path.join(root, f), os.path.join(root, processedDir, filename))
 	else:
 		os.rename(os.path.join(root, f), os.path.join(root, processedDir, filename))
 
@@ -83,7 +84,6 @@ def main():
 		 directory = args.dir
 	else:
 		 directory = os.getcwd()
-	ext = '.' + args.format.split('.')[-1].lower()
 
 	# Validate arguments
 	assert os.path.exists(directory)
@@ -97,10 +97,11 @@ def main():
 			if args.verbose:
 				print('Processing %s' % os.path.join(directory, f))
 				
-			with open(f) as data_file:
-				data = json.load(data_file) # TODO
+			with open(os.path.join(directory, f)) as data_file:
+				data = json.load(data_file)
 				imagepath = data['image']
-				image = cv2.imread(imagepath)
+                                assert not os.path.isabs(imagepath), "Absolute paths not supported"
+				image = cv2.imread(os.path.join(directory, imagepath))
 				# TODO: Rewrite image entry of json with corrected path (e.g. path to the JPGs)
 				
 				# Process image here
@@ -108,12 +109,12 @@ def main():
 					im_distorted = distort_image(image)
 					json_name, json_ext = os.path.splitext(f)
 					json_out = json_name + '_%d' % i + json_ext
-					move_to_processed_subdir(directory, f, json_out, copy=True)
+					save_to_processed_subdir(directory, f, json_out, copy=True)
 					generated += 1
 				
 				# Move processed files into processed_## subdir
-				move_to_processed_subdir(directory, f)
-				# TODO: Move the processed image as well
+				save_to_processed_subdir(directory, f)
+                                save_to_processed_subdir(directory, imagepath)
 				
 				processed += 1
 			
