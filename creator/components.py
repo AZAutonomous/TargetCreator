@@ -3,7 +3,18 @@
 # Description: This file holds the building blocks for artificial target creation 
 
 # List of background images - TODO: desert, cement/asphalt (runway)
-backgrounds = [("grass", "../res/backgrounds/grass.jpg"),]
+backgrounds = [("1", "../res/backgrounds/1.jpg"),
+               ("5", "../res/backgrounds/5.jpg"),
+               ("6", "../res/backgrounds/6.jpg"),
+               ("7", "../res/backgrounds/7.jpg"),
+               ("8", "../res/backgrounds/8.jpg"),
+               ("10", "../res/backgrounds/10.jpg"),
+               ("11", "../res/backgrounds/11.jpg"),
+               ("14", "../res/backgrounds/14.jpg"),
+               ("16", "../res/backgrounds/16.jpg"),
+               ("101", "../res/backgrounds/101.jpg"),
+               ("102", "../res/backgrounds/102.jpg"),
+			]
 
 # List of shapes
 shapes = [("circle", "../res/shapes/circle.jpg"),

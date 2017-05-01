@@ -26,7 +26,7 @@ parser.add_argument('-n', '--num_copies', type=int, default=1,
 args = parser.parse_args()
 
 def randomAngle(maxangle=180):
-    return (random.random() - 0.5) * 2 * maxangle
+	return (random.random() - 0.5) * 2 * maxangle
 
 	
 def distort_image(image, perspective_warp_weight=0.2):
@@ -57,7 +57,7 @@ def save_to_processed_subdir(root, f, newname=None, copy=False):
 	'''
 	if newname is not None:
 		filename = newname
-        else:
+	else:
 		filename = f
 	# Move a file into processed_## subdir
 	counter = 0
@@ -72,6 +72,8 @@ def save_to_processed_subdir(root, f, newname=None, copy=False):
 	if not os.path.exists(os.path.join(root, processedDir)):
 		os.mkdir(os.path.join(root, processedDir))
 	# Move processed file to processed_##/ subdirectory
+	if args.verbose:
+		print('Moving %s to %s' % (f, os.path.join(root, processedDir, filename)))
 	if copy:
 		shutil.copyfile(os.path.join(root, f), os.path.join(root, processedDir, filename))
 	else:
@@ -100,7 +102,7 @@ def main():
 			with open(os.path.join(directory, f)) as data_file:
 				data = json.load(data_file)
 				imagepath = data['image']
-                                assert not os.path.isabs(imagepath), "Absolute paths not supported"
+			        assert not os.path.isabs(imagepath), "Absolute paths not supported"
 				image = cv2.imread(os.path.join(directory, imagepath))
 				# TODO: Rewrite image entry of json with corrected path (e.g. path to the JPGs)
 				
@@ -114,7 +116,7 @@ def main():
 				
 				# Move processed files into processed_## subdir
 				save_to_processed_subdir(directory, f)
-                                save_to_processed_subdir(directory, imagepath)
+				save_to_processed_subdir(directory, imagepath)
 				
 				processed += 1
 			
