@@ -69,7 +69,7 @@ def main():
 					targetLetterColor = letterColor[1]
 					
 					# Grab random slice of random background
-					background = backgrounds[random.randint(0, len(backgrounds)-1]
+					background = backgrounds[random.randint(0, len(backgrounds))-1]
 					bg = cv2.imread(background[1])
 					x = random.randint(0, bg.shape[0]-targetShape.shape[0])
 					y = random.randint(0, bg.shape[1]-targetShape.shape[1])
