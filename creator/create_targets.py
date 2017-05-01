@@ -50,6 +50,11 @@ def degToOrientation(degrees):
 	return orientation
 
 def main():
+	# Preload backgrounds
+	bgs = []
+	for background in backgrounds:
+		bgs.append(cv2.imread(background[1]))
+
 	# Iterate through shapes
 	for shape in shapes:
 		# Read shape in. Note current iteration has shape as black on white
@@ -69,8 +74,7 @@ def main():
 					targetLetterColor = letterColor[1]
 					
 					# Grab random slice of random background
-					background = backgrounds[random.randint(0, len(backgrounds))-1]
-					bg = cv2.imread(background[1])
+					bg = bgs[random.randint(0, len(bgs))-1]
 					x = random.randint(0, bg.shape[0]-targetShape.shape[0])
 					y = random.randint(0, bg.shape[1]-targetShape.shape[1])
 					targetBg = bg[x:x+targetShape.shape[0], y:y+targetShape.shape[1]]
